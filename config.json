@@ -1,0 +1,13 @@
+{
+	"server": {
+	    "port": 88881
+	},	  
+	"db": {
+		"url": "user:user@127.0.0.1/nodebox",
+		"tables"  : ["users", "token", "desktops"] 
+	},  
+	"app":{
+		"autoLogoutUserAfter" : 3600,
+		"garbageCollectUser"  : 60
+	}
+}
