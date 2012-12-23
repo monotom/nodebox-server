@@ -1,41 +1,29 @@
-var config  = require('./config'),	
-	server  = require("./server/server"),
-	router  = require("./server/router"),	
-	oauth   = require('./handlers/oauth'),
-	io      = require('./handlers/io'),
-	info    = require('./handlers/info'),
-	account = require('./handlers/account');
+var Server  	= require("./server/server").Server,
+	Router  	= require("./server/routing").Router,	
+	Dispatcher  = require("./server/routing").Dispatcher,	
+	
+	AuthHandler = require('./handlers/auth').AuthHandler,
+	IoHandler   = require('./handlers/io').IoHandler,
+	InfoHandler = require('./handlers/info').InfoHandler,
+	AccountHandler = require('./handlers/account').AccountHandler;
 
-var restMap = {
-		"oauth/request" 	: { "POST"	: auth.request },	
-		"oauth/authorize"	: { "GET"	: auth.authorize },	
-		"oauth/access"		: { "POST"	: auth.access },	
-		
-		"account/info"		: { "GET"	: account.info },	
-		
-		"io/*"				: { "GET"	: io.send,
-								"POST" 	: io.recive,
-								"DELETE": io.remove,
-								"COPY"	: io.copy,
-								"MOVE"	: io.move,
-								"MKCOL" : io.mkdir},
-								
-		"info/metadata/*"	: { "GET"	: info.getMetadata},
-		"info/changed/*"	: { "GET"	: info.hasChanged}		
+var routingMap = {
+	"account/info": { "GET"	: AccountHandler.info },	
+	"auth"					: { "POST"	: AuthHandler.login },
+	
+	"io(.*)\\?{0,1}.*"		: { "GET"	: IoHandler.send,
+								"PUT" 	: IoHandler.recive,
+								"DELETE": IoHandler.remove,
+								"MKCOL" : IoHandler.mkdir},//TODO
+							
+	"info/metadata(.*)\\?{0,1}.*": { "GET"	: InfoHandler.getMetadata},
+	"info/changed(.*)\\?{0,1}.*" : { "GET"	: InfoHandler.getChanged}		
 };
 
+var router = new Router(routingMap);
 
-server.start(router.dispatcheRest, restMap, config.server.port);
+var dispatcher = new Dispatcher(router);
 
+var server = new Server(dispatcher);
 
-/*
-TODO: 
-info/metadata/<root>/<path>
-info/changed/<root>/<path>
-info/revisions/<root>/<path>
-info/search/<root>/<path>
-info/shares/<root>/<path>
-info/media/<root>/<path>
-info/link/<root>/<path>
-info/thumbnail<root>/<path>
-*/
+server.listen(require('./config').server.port);

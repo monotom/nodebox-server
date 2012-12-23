@@ -1,37 +1,66 @@
+url		 = require("url"),
+formidable 	= require("formidable"),
+fs 			= require("fs"),
+util		= require("util");
 
-exports.send404 = function(response){
-	response.writeHead(404, {"Content-Type": "text/html"});
-	response.write("404 Not found");
-	response.end();
+exports.RequestMixIn ={
+	getParam : function(name){
+		var urlObject = url.parse( this.url, true, true );
+	  	return urlObject.query.hasOwnProperty(name) ? urlObject.query[name] : null;
+	},	
+	parseFormData : function(callback, encoding){
+		encoding = encoding || 'binary';
+		form = new formidable.IncomingForm();
+		form.encoding = encoding;
+		form.parse(this, callback);	
+	}
 };
 
-exports.send500 = function(response){
-	response.writeHead(500, {"Content-Type": "text/plain"});
-	response.write(error + "\n");
-	response.end();
-};
-
-exports.sendFile = function (response, file, mime, encoding){
-	response.writeHead(200, {"Content-Type": mime});
-	response.write(file, encoding);
-	response.end();
-};
-
-exports.sendText = function (response, text){
-	response.writeHead(200, {"Content-Type": "text/html"});
-	response.write(text);
-	response.end();
-};
-
-exports.sendHtml = function(body){	
-	var content = '<head>'+
-    '<meta http-equiv="Content-Type" '+
-    'content="text/html; charset=UTF-8" />'+
-    '</head>'+
-    '<body>'+
-    body+
-    '</body>'+
-    '</html>';
-	
-	exports.sendText(content);
+exports.ResponseMixIn = {
+	send : function(status, content, contentType, encoding){
+		this.writeHead(status, {"Content-Type": contentType});
+		this.write(content, encoding);
+		this.end();
+	},
+	sendNotFound : function(text){
+		text = text || "404 Not found";
+		this.send(404, text, "text/plain");
+	},
+	send404 : this.sendNotFound,
+	sendError : function(error){
+		error = error || '500 Server Error';
+		this.send(500, error, "text/plain");
+	},
+	send500 : this.sendError,
+	sendText : function (text){
+		this.send(200, text, "text/plain");
+	},
+	sendJSON : function (object){
+		this.send(200, JSON.stringify(object), "application/json");
+	},	
+	sendJSONError : function (object){
+		this.send(500, JSON.stringify(object), "application/json");
+	},	
+	sendHtml : function(body){	
+		var content = '<head>'+
+	    '<meta http-equiv="Content-Type" '+
+	    'content="text/html; charset=UTF-8" />'+
+	    '</head>'+
+	    '<body>'+
+	    body+
+	    '</body>'+
+	    '</html>';
+		
+		this.send(200, content, "text/html");
+	},	
+	sendFile : function(file){
+		var stat = fs.statSync(file);
+		this.writeHead(200, {
+			'Content-Type': 'application/octet-stream', 
+		    'Content-Length': stat.size
+		});
+		  
+		var readStream = fs.createReadStream(file);
+		util.pump(readStream, this);		  
+	}
 };
