@@ -7,6 +7,10 @@ var Server  	= require("./server/server").Server,
 	InfoHandler = require('./handlers/info').InfoHandler,
 	AccountHandler = require('./handlers/account').AccountHandler;
 
+
+/**
+* @author Tom Hanoldt
+*/
 var routingMap = {
 	"account/info": { "GET"	: AccountHandler.info },	
 	"auth"					: { "POST"	: AuthHandler.login },
