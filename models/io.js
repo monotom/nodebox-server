@@ -8,15 +8,7 @@ var fs		= require("fs"),
 */
 var IoModel = function(){
 	var self = this;
-	/**
-	* Get the info of a folder or file recursive.
-    *                  
-    * @param path The path to retrive information for.              
-    * @param callback A method called when the informations are collected. 
-    *        Parameter passed to the method is error(String) and Object. The object has the keys file, stats, childs
-    *
-    * @return void
-	*/
+
 	this.getInfo = function(path, callback){
 		log('look up for files in path: '+path);
 		if(!fs.existsSync(path)) return callback('path doesnt exist', null);

@@ -53,17 +53,6 @@ var Desktop = function(data, model, io){
 	};
 	
 	/**
-	* Create the local storage base path for this desktop if not exists.
-	*             
-	* æparam callback The callback method is called when the operation is finished. Parameter passed is error if ther was one.            
-	*                  
-	* @return void
-	*/
-	this.makeSureBasePathExists = function(callback){
-		io.createDirectory(self.getStorageBasePath(), callback);
-	};
-	
-	/**
 	* Get the location of a file within this desktop.
 	*                  
 	* @param path The relative path of the file or folder.
@@ -75,13 +64,16 @@ var Desktop = function(data, model, io){
 	};
 	
 	/**
-	* Get the file or folder information of a file within the desktop.
+	* Create the local storage base path for this desktop if not exists.
+	*             
+	* æparam callback The callback method is called when the operation is finished. Parameter passed is error if ther was one.            
 	*                  
-	* @param path The relative path of the file or folder.
-	* @param callback The callback method called when the operation finished. Parameters passed to the callback method are String error and File @see File.
-	*
 	* @return void
 	*/
+	this.makeSureBasePathExists = function(callback){
+		io.createDirectory(self.getStorageBasePath(), callback);
+	};
+	
 	this.getFiles = function(path, callback){
 		return io.getInfo(self.getFileLocation(path), function(err, item){
 			if(err) return callback(err, null);
@@ -95,7 +87,8 @@ var Desktop = function(data, model, io){
 	*                  
 	* @param srcPath Source path of the file or folder.             
     * @param targetPath The target path of the file or folder.
-    * @param callback The callback method called when the operation finished. Parameters passed to the callback method are error and File @see File.
+    * @param callback The callback method called when the operation finished. 
+    * Parameters passed to the callback method are error and File @see File.
 	*
 	* @return void
 	*/

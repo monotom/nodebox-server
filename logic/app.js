@@ -25,17 +25,20 @@ var Application = function(){
     * @return void
     */
     this.authenticateUser = function(name, password, callback){
+    	if(!name || !password)
+    		return callback('missing parameter');
+    	
     	getUserByName(name, function(err, user){
     		if(err == 'unknown user' 
     		&& !config.app.createUserIfNotExists)
     			return callback(err, null);
     		    		
     		if(err == 'unknown user'){
-				var user = new User({'name':name}, userModel);
+				user = new User({'name':name}, userModel);
 				user.setPassword(password);
 				user.save(function(err){
 					if(err) return callback(err);
-					self.authenticateUser(name, password, callback);
+					this.authenticateUser(name, password, callback);
 				});
     		}
     		else{
@@ -49,6 +52,37 @@ var Application = function(){
     			user.loggedIn = util.actualUnixTime();
     			callback(null, user);
     		}   		
+    	});
+	};
+	
+    /**
+    * Create a new user.
+    *                  
+    * @param name The name of the user.
+    * @param password The password of the user.
+    * @param data additional user data in object form.
+    * @param callback this method is called when the operation finished. Parameters passed to the method are error or a User object @see User. 
+    *
+    * @return void
+    */
+    this.createUser = function(name, password, data, callback){
+    	if(!name || !password)
+    		return callback('missing parameter');
+    	
+    	getUserByName(name, function(err, user){
+    		if(err && err != 'unknown user')
+    			return callback(err);
+    		
+    		if(err && err == 'unknown user')
+    			return callback('user exists');
+    		
+	    	var user = new User(data, userModel);
+	    	user.name = name;
+			user.setPassword(password);
+			user.save(function(err){
+				if(err) return callback(err);
+				callback(null, user);
+			});
     	});
 	};
 	
@@ -245,6 +279,7 @@ var Application = function(){
 	this.getUserModel = function(){
 		return userModel;
 	};
+	
 	/**
 	* Get a user object by its name.
 	*                  

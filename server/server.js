@@ -1,6 +1,7 @@
-var http     = require("http"),
+var https    = require("https"),
 	protocol = require("./protocol"),
 	util	 = require("../logic/util"),
+	config   = require("../config"),
 	log		 = util.getLogger('server.server::');
 
 /**
@@ -17,7 +18,6 @@ var Server = function(dispatcher){
       *                  
       * @param request The request object, the client sends is from type IncommingMessage. 
       * @param response The response object, send to the client is from type OutgoingMessage.
-      * @return void 
 	 */
 	this.onRequest = function(request, response){
 		//extend request and response via mixin
@@ -30,8 +30,6 @@ var Server = function(dispatcher){
 	 * Starts the server listening on given port. 
      *                  
      * @param port Specifies the port the server listens to.
-     *
-     * @return void 
 	 */
 	this.listen = function(port){
 		console.log("startting server on port " + port + "");
@@ -41,9 +39,13 @@ var Server = function(dispatcher){
 			console.error(err.stack);
 		});
 		  
+		var options = {
+				 key: fs.readFileSync(config.server.keyFile),
+				 cert: fs.readFileSync(config.server.certFile)
+				};
 		//run the server
-		http.createServer(this.onRequest).listen(port);		
+		https.createServer(options, this.onRequest).listen(port);		
 	};
 };
 
-exports.Server = Server;
+module.exports.Server = Server;

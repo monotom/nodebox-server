@@ -8,9 +8,12 @@ var app		= require("../logic/app").app,
 var IoHandler = function(){
 	/**
 	 * Recives a file sent from client and loads it up to the desktop of the user.
-	 * The request must contain a parameter sessionKey containing a valid session key of a authenticated user.
-	 * On success informations about the folder are sent back in an json encoded object from type File. @see File 
-	 * If there was a problem processing the request an json encoded object is sent back to the client {error:'reaon'}.
+	 * The request must contain a parameter sessionKey containing a valid session key of a 
+	 * authenticated user.
+	 * On success informations about the folder are sent back in an json encoded object from 
+	 * type File. @see File 
+	 * If there was a problem processing the request an json encoded object is sent back to 
+	 * the client {error:'reaon'}.
 	 * 
 	 * @param path The matched path processed by the router. @see Router
 	 * @param request The request object send from the client. @see RequestMixIn 
@@ -57,13 +60,16 @@ var IoHandler = function(){
 	
 	/**
 	 * Sends the content of a file from the users desktop back to the client encoded as binary.
-	 * The request must contain a parameter sessionKey containing a valid session key of a authenticated user.
+	 * The request must contain a parameter sessionKey containing a valid session key of a 
+	 * authenticated user.
 	 * On success the content of the file is sent back to the user encoded as bnary. 
-	 * If there was a problem processing the request an json encoded object is sent back to the client {error:'reaon'}.
+	 * If there was a problem processing the request an json encoded object is sent back to 
+	 * the client {error:'reaon'}.
 	 *
 	 * @param path The matched path processed by the router. @see Router
 	 * @param request The request object send from the client. @see RequestMixIn 
-	 * @param response The response object used to send an answer back to the requesting client. @see ResponseMixIn 
+	 * @param response The response object used to send an answer back to the requesting client. 
+	 * @see ResponseMixIn 
 	 * 
 	 * @return void
 	 */

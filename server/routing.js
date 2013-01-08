@@ -4,13 +4,16 @@ var url  	= require("url"),
 
 /**
 * @author Tom Hanoldt
-* @class This Class dispatches the client request and calls a handler for processing and response generation.
+* @class This Class dispatches the client request and calls a handler for processing and 
+*        response generation.
 * @param router The router for finding the route to the handler which should process the request.
 * @see Router 
 */
 var Dispatcher  = function(router){
 	/**
-	* Dispatches the request and uses the router for finding a handler. If no handler was found, a HTTP 404 message is sent to the client. If a handler method was found path, request, response are passed to that method.
+	* Dispatches the request and uses the router for finding a handler. If no handler was found, 
+	* a HTTP 404 message is sent to the client. If a handler method was found path, request, 
+	* response are passed to that method.
     *
     * @param request The request from type IncommingMessage is passed to the handler if found.
     * @param response The response from type OutgoingMessage is passed to the handler if found.
@@ -22,7 +25,7 @@ var Dispatcher  = function(router){
 	  
 	  var handler = router.getHandler(request);
 	  if(!handler){
-		  response.sendNotFound(response);
+		  response.sendNotFound();
 		  return false;
 	  }
 	  handler.handle(handler.path, request, response);

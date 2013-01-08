@@ -7,12 +7,9 @@ var Server  	= require("./server/server").Server,
 	InfoHandler = require('./handlers/info').InfoHandler,
 	AccountHandler = require('./handlers/account').AccountHandler;
 
-
-/**
-* @author Tom Hanoldt
-*/
 var routingMap = {
-	"account/info": { "GET"	: AccountHandler.info },	
+	"account/info"			: { "GET"	: AccountHandler.info },	
+	"account/create"		: { "POST"	: AccountHandler.create },	
 	"auth"					: { "POST"	: AuthHandler.login },
 	
 	"io(.*)\\?{0,1}.*"		: { "GET"	: IoHandler.send,
