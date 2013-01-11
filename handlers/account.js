@@ -71,9 +71,6 @@ var AccountHandler = function(){
 		  		}
 		  	});
 	    });
-		
-		
-		
 	};
 };
 

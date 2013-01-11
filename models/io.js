@@ -25,10 +25,10 @@ var IoModel = function(){
 			var pending = list.length;
 			if (!pending) return callback(null, result);
 			list.forEach(function(fileName) {
-				file = path + fileName;
-				fs.stat(file, function(err, stat) {
+				var filePath = (path + '/' + fileName).replace('//','/');
+				fs.stat(filePath, function(err, stat) {
 					if(!err)
-						result.childs.push({file:file, stats:stat, childs:[]});
+						result.childs.push({file:filePath, stats:stat, childs:[]});
 					
 					if (!--pending) callback(null, result);
 				});

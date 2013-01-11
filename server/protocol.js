@@ -165,23 +165,5 @@ var ResponseMixIn = function(){
 	};
 };
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 exports.RequestMixIn = new RequestMixIn();
 exports.ResponseMixIn = new ResponseMixIn();

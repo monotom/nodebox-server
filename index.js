@@ -15,10 +15,9 @@ var routingMap = {
 	"io(.*)\\?{0,1}.*"		: { "GET"	: IoHandler.send,
 								"PUT" 	: IoHandler.recive,
 								"DELETE": IoHandler.remove,
-								"MKCOL" : IoHandler.mkdir},//TODO
+								"MKCOL" : IoHandler.mkdir},
 							
-	"info/metadata(.*)\\?{0,1}.*": { "GET"	: InfoHandler.getMetadata},
-	"info/changed(.*)\\?{0,1}.*" : { "GET"	: InfoHandler.getChanged}		
+	"info/metadata(.*)\\?{0,1}.*": { "GET"	: InfoHandler.getMetadata}	
 };
 
 var router = new Router(routingMap);

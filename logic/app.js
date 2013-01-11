@@ -12,6 +12,7 @@ var config  = require("../config"),
 * @class The Application class handles the main operations for retriving and accessing User and Desktop objects and controlls security issues.
 */
 var Application = function(){
+	var self = this;
     var activeUsersBySessionKey = { };
     var activeDesktopsBySessionKey = { };
     
@@ -38,7 +39,7 @@ var Application = function(){
 				user.setPassword(password);
 				user.save(function(err){
 					if(err) return callback(err);
-					this.authenticateUser(name, password, callback);
+					self.authenticateUser(name, password, callback);
 				});
     		}
     		else{

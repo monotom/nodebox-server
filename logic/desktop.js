@@ -93,9 +93,9 @@ var Desktop = function(data, model, io){
 	* @return void
 	*/
 	this.storeFile = function(srcPath, targetPath, callback){
-		log('storing file to '+file);
+		log('storing file to '+srcPath);
 		io.moveFile(srcPath, self.getFileLocation(targetPath), function(){
-			self.getFiles(file.replace(self.getStorageBasePath(), ''), callback);
+			self.getFiles(targetPath.replace(self.getStorageBasePath(), ''), callback);
 		});
 	};
 

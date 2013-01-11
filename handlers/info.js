@@ -27,15 +27,10 @@ var InfoHandler = function(){
 	  			response.sendJSONError({error:err});
 	  		}
 	  		else{
-	  			log('sending file list: '+JSON.stringify(fileList));
+	  			log('sending file list' );
 	  			response.sendJSON(fileList);
 	  		}
 	  	});
-	};
-	
-	this.getChanged = function(path, request, response) {
-		log("getChanged(path: "+path+")");
-		//TODO
 	};
 };
 
