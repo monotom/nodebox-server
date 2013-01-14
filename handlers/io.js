@@ -21,13 +21,13 @@ var IoHandler = function(){
 	 * 
 	 * @return void
 	 */
-	this.recive = function(path, request, response){
+	this.receive = function(path, request, response){
 		log("recive(path: "+path+")");
 		var callback = function(error, fields, files) {
 			app.moveFileToDesktop(request.getParam('sessionKey'), files['Filedata'].path, path, function(err, reponseObject) {
 				if (err) {
 					log(err);
-						return response.sendJSONError({error:err});
+						return response.sendJSON({error:err});
 		  		}
 				response.sendJSON(reponseObject);
 			});
@@ -52,7 +52,7 @@ var IoHandler = function(){
 		app.removeFileFromDesktop(request.getParam('sessionKey'), path, function(err, reponseObject){
 			if (err) {
 				log(err);
-				return response.sendJSONError({error:err});
+				return response.sendJSON({error:err});
 		  	}
 			response.sendJSON(reponseObject);
 		});
@@ -75,13 +75,19 @@ var IoHandler = function(){
 	 */
 	this.send = function(path, request, response){
 		log("send(path: "+path+")");
+		try{
 		app.getFileLocation(request.getParam('sessionKey'), path, function(err, file){
 			if (err) {
 				log(err);
-				return response.sendJSONError({error:err});
+				return response.sendJSON({error:err});
 			}
 			response.sendFile(file);
 		});
+}
+catch(e){
+return response.sendJSON({error:e});
+
+}
 	};
 	
 	/**

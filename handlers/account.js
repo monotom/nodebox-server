@@ -23,7 +23,7 @@ var AccountHandler = function(){
 	  	app.getAccountInfo(request.getParam('sessionKey'), function(err, responseObject){
 	  		if(err){
 	  			log(err);
-	  			response.sendJSONError({error:err});
+	  			response.sendJSON({error:err});
 	  		}
 	  		else{
 	  			log('sending response: '+responseObject);
@@ -63,7 +63,7 @@ var AccountHandler = function(){
 			app.createAccount(decodedBody.user, decodedBody.pass, {}, function(err, user){
 		  		if(err){
 		  			log(err);
-		  			response.sendJSONError({error:err});
+		  			response.sendJSON({error:err});
 		  		}
 		  		else{
 		  			log('user created: '+user);

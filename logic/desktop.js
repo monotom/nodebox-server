@@ -93,7 +93,7 @@ var Desktop = function(data, model, io){
 	* @return void
 	*/
 	this.storeFile = function(srcPath, targetPath, callback){
-		log('storing file to '+srcPath);
+		log('storing file to '+self.getFileLocation(targetPath));
 		io.moveFile(srcPath, self.getFileLocation(targetPath), function(){
 			self.getFiles(targetPath.replace(self.getStorageBasePath(), ''), callback);
 		});
@@ -147,9 +147,9 @@ var Desktop = function(data, model, io){
 			root:		root,
 			size: 		util.bytesToHumanReadable(item.stats['size']),
 			path: 		item.file.replace(localPath, ''),
-			revision: 	util.md5(lastChangeDate),
+			revision: 	util.md5(lastChangeDate+item.stats['size']),
 			isDeleted: 	false,
-			hash: 		util.md5(lastChangeDate),
+			hash: 		util.md5(lastChangeDate+item.stats['size']),
 			childs: 	[]
 		});
 		

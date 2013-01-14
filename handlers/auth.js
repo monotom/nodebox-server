@@ -32,12 +32,12 @@ var AuthHandler = function(){
 			var decodedBody = queryString.parse(fullBody);
 			if(!decodedBody.hasOwnProperty('user')
 			|| !decodedBody.hasOwnProperty('pass'))
-				return response.sendJSONError({error:'missing parameter'});
+				return response.sendJSON({error:'missing parameter'});
 			
 		  	app.authenticateUser(decodedBody.user, decodedBody.pass, function(err, user){
 		  		if(err){
 		  			log(err);
-		  			return response.sendJSONError({error:err});
+		  			return response.sendJSON({error:err});
 		  		}
 		  		
 		  		response.sendJSON({sessionKey:user.sessionKey});

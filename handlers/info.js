@@ -24,10 +24,10 @@ var InfoHandler = function(){
 	  	app.getMetadata(request.getParam('sessionKey'), path, function(err, fileList){
 	  		if(err){
 	  			log(err);
-	  			response.sendJSONError({error:err});
+	  			response.sendJSON({error:err});
 	  		}
 	  		else{
-	  			log('sending file list' );
+	  			log('sending file list for '+path );
 	  			response.sendJSON(fileList);
 	  		}
 	  	});

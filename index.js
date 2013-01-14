@@ -13,7 +13,7 @@ var routingMap = {
 	"auth"					: { "POST"	: AuthHandler.login },
 	
 	"io(.*)\\?{0,1}.*"		: { "GET"	: IoHandler.send,
-								"PUT" 	: IoHandler.recive,
+								"PUT" 	: IoHandler.receive,
 								"DELETE": IoHandler.remove,
 								"MKCOL" : IoHandler.mkdir},
 							

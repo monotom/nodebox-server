@@ -24,12 +24,15 @@ var IoModel = function(){
 			if (err) return callback(err, null);
 			var pending = list.length;
 			if (!pending) return callback(null, result);
+
 			list.forEach(function(fileName) {
 				var filePath = (path + '/' + fileName).replace('//','/');
 				fs.stat(filePath, function(err, stat) {
 					if(!err)
 						result.childs.push({file:filePath, stats:stat, childs:[]});
-					
+					else
+						log(err: '+err);
+
 					if (!--pending) callback(null, result);
 				});
 			});
