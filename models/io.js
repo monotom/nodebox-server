@@ -31,7 +31,7 @@ var IoModel = function(){
 					if(!err)
 						result.childs.push({file:filePath, stats:stat, childs:[]});
 					else
-						log(err: '+err);
+						log('err: '+err);
 
 					if (!--pending) callback(null, result);
 				});
